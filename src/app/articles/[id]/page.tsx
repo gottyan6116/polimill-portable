@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight, Clock, ExternalLink, Info } from "lucide-react";
 import { ARTICLES, articleById, byUpdated, formatDate, themeOf } from "@/lib/content";
-import { Art } from "@/components/Art";
+import { Photo, PhotoCredit } from "@/components/Photo";
 import { KindBadge } from "@/components/KindBadge";
 import { ArticleTile } from "@/components/ArticleCard";
 import { CompareButton } from "@/components/compare";
@@ -54,7 +54,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             </span>
             <span>{theme.name}</span>
           </p>
-          <Art id={a.id} kind={a.kind} theme={a.theme} iconSize={64} className="mt-6 aspect-[21/9] rounded-card" />
+          <figure className="mt-6">
+            <Photo id={a.id} alt="" priority zoom={false} sizes="(min-width: 1024px) 760px, 100vw" className="aspect-[16/9] rounded-card" />
+            <figcaption className="mt-2">
+              <PhotoCredit id={a.id} />
+            </figcaption>
+          </figure>
           <p className="mt-6 text-[17px] leading-[1.9] text-ink">{a.lead}</p>
 
           <section aria-labelledby="cond" className="mt-8 rounded-card border border-line bg-surface">

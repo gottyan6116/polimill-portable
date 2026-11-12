@@ -258,6 +258,7 @@ export const ARTICLES: Article[] = [
     tags: ["関係人口", "指標", "評価"],
     source: "編集部（サンプル）",
     conditions: BASE_COND,
+    featured: true,
     sections: [{ h: "指標の選び方", p: ["人数だけでなく、関わりの深さの段階を決めて数えると、施策の効果を比べやすい。"] }],
   },
   {
@@ -364,6 +365,7 @@ export const ARTICLES: Article[] = [
     tags: ["創業支援", "官民連携", "中小企業"],
     source: "（サンプル）G市 産業振興課の報告",
     conditions: { population: "人口20万人", cost: "既存予算の範囲", personalData: "相談記録で扱う", staffing: "担当2名＋連携機関" },
+    featured: true,
     sections: [{ h: "取り組み", p: ["相談の受付票を3者で共通にし、本人の同意を得て記録を共有した。"] }],
   },
   {

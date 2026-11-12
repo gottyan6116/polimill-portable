@@ -132,7 +132,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             )}
           </AnimatePresence>
         </header>
-        <main id="main" className="pb-40">
+        <main id="main" className="pb-24">
           {children}
         </main>
         <Footer />
@@ -144,32 +144,36 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
 }
 
 function Footer() {
+  const links = [
+    ["/themes/bousai/", "テーマから探す"],
+    ["/compare/", "比べて下書きを作る"],
+    ["/services/", "サービス比較（PR）"],
+    ["/seminars/", "セミナー"],
+    ["/policy/", "広告と編集の方針"],
+    ["/credits/", "写真のクレジット"],
+  ];
   return (
     <footer className="border-t border-line bg-surface">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[1.2fr_1fr_1fr]">
-        <div>
+      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-start md:justify-between">
+        <div className="max-w-md">
           <Image src={asset("/brand/polimill-logo.png")} alt="Polimill" width={98} height={30} className="h-7 w-auto" />
-          <p className="mt-3 max-w-sm text-[13px] text-ink-3">
-            これは役員会での検討用に作ったデモです。記事・自治体・企業・数値はすべてサンプルで、実在のものではありません。
+          <p className="mt-3 text-[13px] text-ink-3">
+            役員会での検討用に作ったデモです。記事・自治体・企業・数値はすべてサンプルで、写真はイメージです。
           </p>
         </div>
-        <div>
-          <p className="text-[13px] font-bold text-ink">使い方</p>
-          <ul className="mt-2 space-y-1.5 text-[13px] text-ink-2">
-            <li><Link href="/themes/bousai/" className="hover:text-brand-strong">テーマから探す</Link></li>
-            <li><Link href="/compare/" className="hover:text-brand-strong">比べて下書きを作る</Link></li>
-            <li><Link href="/seminars/" className="hover:text-brand-strong">セミナー</Link></li>
+        <nav aria-label="フッター">
+          <ul className="flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-ink-2 md:max-w-md md:justify-end">
+            {links.map(([href, label]) => (
+              <li key={href}>
+                <Link href={href} className="hover:text-brand-strong hover:underline">
+                  {label}
+                </Link>
+              </li>
+            ))}
           </ul>
-        </div>
-        <div>
-          <p className="text-[13px] font-bold text-ink">このサイトについて</p>
-          <ul className="mt-2 space-y-1.5 text-[13px] text-ink-2">
-            <li><Link href="/policy/" className="hover:text-brand-strong">広告と編集の方針</Link></li>
-            <li><Link href="/services/" className="hover:text-brand-strong">サービス比較（PR）</Link></li>
-          </ul>
-        </div>
+        </nav>
       </div>
-      <p className="border-t border-line py-4 text-center text-[12px] text-ink-3">© Polimill, Inc. ｜ Polimill Portable（デモ）</p>
+      <p className="border-t border-line py-4 text-center text-[12px] text-ink-3">© Polimill, Inc.・Polimill Portable（デモ）</p>
     </footer>
   );
 }

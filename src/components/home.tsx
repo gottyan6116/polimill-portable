@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useInView } from "motion/react";
-import { ChevronLeft, ChevronRight, FileText, Layers, Pause, Play, Search } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { ChevronLeft, ChevronRight, Pause, Play, Search } from "lucide-react";
 import { ARTICLES, KIND_LABEL, TRENDING, byUpdated, formatDate, themeOf, type Article, type Kind } from "@/lib/content";
-import { Art } from "./Art";
+import { Photo } from "./Photo";
 import { ArticleRow } from "./ArticleCard";
 import { KindBadge } from "./KindBadge";
 import { useOpenSearch } from "./SiteChrome";
@@ -54,52 +54,6 @@ export function HeroSearch() {
   );
 }
 
-// 「探す→比べる→資料にする」を順に光らせて、ポータルの使い方を示す
-const STEPS = [
-  { t: "探す", d: "課題から、制度・自治体事例・サービスをまとめて見る", icon: Search },
-  { t: "比べる", d: "人口規模・費用・個人情報・体制の条件をそろえて並べる", icon: Layers },
-  { t: "資料にする", d: "出典つきで、庁内説明の論点表の下書きを作る", icon: FileText },
-];
-
-export function FlowSteps() {
-  const ref = useRef<HTMLOListElement>(null);
-  const inView = useInView(ref, { once: false, amount: 0.5 });
-  const [active, setActive] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    const t = setInterval(() => setActive((a) => (a + 1) % STEPS.length), 2200);
-    return () => clearInterval(t);
-  }, [inView]);
-  return (
-    <ol ref={ref} className="relative grid gap-3">
-      {STEPS.map((s, i) => {
-        const Icon = s.icon;
-        const on = i === active;
-        return (
-          <li key={s.t} className="relative">
-            <motion.div
-              animate={{ backgroundColor: on ? "#ffffff" : "rgba(255,255,255,0)", borderColor: on ? "#ff6f22" : "#e2e5ee" }}
-              transition={{ duration: 0.35 }}
-              className="flex items-start gap-4 rounded-card border-2 p-4"
-            >
-              <motion.span
-                animate={{ backgroundColor: on ? "#ff6f22" : "#eff0f6", color: on ? "#ffffff" : "#5f6673" }}
-                className="grid size-10 shrink-0 place-items-center rounded-full"
-              >
-                <Icon aria-hidden className="size-5" />
-              </motion.span>
-              <span>
-                <span className="font-heading block text-[18px] font-bold text-ink">{s.t}</span>
-                <span className="block text-[13px] text-ink-2">{s.d}</span>
-              </span>
-            </motion.div>
-          </li>
-        );
-      })}
-    </ol>
-  );
-}
-
 export function FeatureCarousel({ items }: { items: Article[] }) {
   const [i, setI] = useState(0);
   const [playing, setPlaying] = useState(true);
@@ -115,7 +69,7 @@ export function FeatureCarousel({ items }: { items: Article[] }) {
         <div className="relative aspect-[16/10] md:aspect-auto md:min-h-[320px]">
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.div key={a.id} initial={{ opacity: 0, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute inset-0">
-              <Art id={a.id} kind={a.kind} theme={a.theme} iconSize={72} className="size-full" />
+              <Photo id={a.id} alt="" zoom={false} sizes="(min-width: 768px) 55vw, 100vw" className="size-full" />
             </motion.div>
           </AnimatePresence>
         </div>

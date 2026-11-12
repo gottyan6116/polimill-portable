@@ -38,4 +38,4 @@ npm run build   # out/ に静的サイトを書き出す
 ## 画像
 
 - Polimill・QommonsAI のロゴと製品画像：polimill.jp から取得した自社素材
-- 記事のサムネイルとバナー：コードで描いた生成画像（`src/components/Art.tsx`、`Banners.tsx`）。外部の写真は使っていない
+- 記事・バナーの写真：Wikimedia Commons で自由ライセンス（CC BY / CC BY-SA / CC0 / パブリックドメイン）として公開されている写真。作者とライセンスは `src/lib/photo-credits.json` と、サイトの「写真のクレジット」ページに載せている。記事の自治体・企業を写したものではなく、イメージとして使っている
