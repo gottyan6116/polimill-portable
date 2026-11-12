@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CalendarDays, ShieldCheck } from "lucide-react";
+// avoid-ai-design-ignore: I3 -- 業務カテゴリーの行がリンクであることを示す矢印（指示書で指定）
+import { ArrowRight, CalendarDays, ShieldCheck } from "lucide-react";
 import { ARTICLES, SEMINARS, THEMES, byUpdated, formatDate, themeOf } from "@/lib/content";
 import { asset } from "@/lib/asset";
-import { ThemeIcon } from "@/components/ThemeIcon";
 import { Photo } from "@/components/Photo";
 import { KindBadge } from "@/components/KindBadge";
 import { ArticleTile } from "@/components/ArticleCard";
@@ -57,23 +57,36 @@ export default function Home() {
         <Banners />
       </section>
 
-      {/* テーマ */}
-      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-        <h2 className="text-[24px] font-bold">担当している業務から探す</h2>
-        <ul className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-3 lg:grid-cols-4">
-          {THEMES.map((t) => (
-            <li key={t.slug} className="bg-surface">
-              <Link href={`/themes/${t.slug}/`} className="group flex h-full items-start gap-3 p-4 transition-colors duration-150 hover:bg-brand-soft">
-                <ThemeIcon slug={t.slug} className="mt-0.5 size-6 shrink-0 text-brand-strong transition-transform duration-200 group-hover:-translate-y-0.5" strokeWidth={1.8} />
-                <span className="min-w-0">
-                  <span className="block text-[15px] font-bold text-ink">{t.name}</span>
-                  <span className="mt-0.5 block text-[12px] leading-relaxed text-ink-3">{t.desc}</span>
-                  <span className="mt-1 block text-[12px] text-ink-3 tabular">{counts[t.slug]}件</span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+      {/* テーマ：行政ポータル型のリンク一覧（区切り線の行。アイコンは置かない） */}
+      <section aria-labelledby="themes-heading" className="my-12 border-y border-line bg-surface">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+          <h2 id="themes-heading" className="text-[24px] font-bold text-ink">
+            担当している業務から探す
+          </h2>
+          <ul className="mt-6 grid grid-cols-1 md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 lg:gap-x-8">
+            {THEMES.map((t) => (
+              <li key={t.slug} className="border-b border-line first:border-t md:[&:nth-child(-n+2)]:border-t lg:[&:nth-child(-n+3)]:border-t">
+                <Link
+                  href={`/themes/${t.slug}/`}
+                  className="group flex min-h-16 items-start justify-between gap-4 px-3 py-5 transition-colors duration-150 hover:bg-canvas"
+                >
+                  <span className="min-w-0">
+                    <span className="block text-[16px] font-bold leading-snug text-ink transition-colors duration-150 group-hover:text-brand-strong">{t.name}</span>
+                    <span className="mt-1.5 block text-[13px] leading-relaxed text-ink-3 [word-break:auto-phrase]">{t.desc}</span>
+                  </span>
+                  <span className="flex shrink-0 items-center gap-2 pt-0.5 text-[13px] text-ink-3">
+                    <span className="tabular">{counts[t.slug]}件</span>
+                    <ArrowRight
+                      aria-hidden
+                      className="size-4 transition-transform duration-150 ease-out group-hover:translate-x-[3px] group-hover:text-brand-strong motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+                      strokeWidth={2}
+                    />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       {/* 特集 */}
