@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+/* トークンの正本は DESIGN.md。値を足すときは両方を直す。 */
+@theme {
+  --color-canvas: #f6f7fb; /* polimill.jp の淡いラベンダーグレー（#eff0f9）に寄せた地 */
+  --color-surface: #ffffff;
+  --color-surface-2: #eff0f6;
+  --color-ink: #222222;
+  --color-ink-2: #434956;
+  --color-ink-3: #5f6673;
+  --color-line: #e2e5ee;
+  --color-line-strong: #c9cedb;
+  --color-brand: #ff6f22;
+  --color-brand-soft: #fff0e6;
+  --color-brand-strong: #c2470a;
+  --color-brand-deep: #9c3906;
+  --color-public: #1f5f8b;
+  --color-public-soft: #e8f1f8;
+  --color-case: #2e7d5b;
+  --color-case-soft: #e7f4ee;
+  --color-pr: #8a5a00;
+  --color-pr-soft: #fff4d6;
+  --color-pr-line: #e9c46a;
+
+  --font-heading: var(--font-zen), "Zen Maru Gothic", sans-serif;
+  --font-body: var(--font-biz), "BIZ UDPGothic", "Hiragino Sans", sans-serif;
+
+  --radius-chip: 6px;
+  --radius-control: 10px;
+  --radius-card: 14px;
+
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --shadow-card: 0 1px 2px rgb(34 34 34 / 0.05);
+  --shadow-raised: 0 1px 2px rgb(34 34 34 / 0.06), 0 12px 28px -12px rgb(34 34 34 / 0.18);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.font-heading {
+  font-family: var(--font-heading);
+  font-feature-settings: "palt";
+  letter-spacing: 0.01em;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  word-break: auto-phrase; /* 和文の見出しを文節で折り返す */
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-strong);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 横スクロールの帯（特集・タグ）。スクロールバーは細く */
+.scroll-row {
+  scrollbar-width: thin;
+  scroll-snap-type: x mandatory;
+}
+.scroll-row > * {
+  scroll-snap-align: start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
