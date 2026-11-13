@@ -6,23 +6,22 @@ import { AnimatePresence, motion } from "motion/react";
 import { asset } from "@/lib/asset";
 
 // オープニング演出（トップに最初に来たときだけ。同じタブでは2回目以降は出さない）
-// 1. 散らばった粒子が奥行きのある空間から集まり、Polimill のロゴになる（Three.js）
-// 2. 粒子がくっきりしたロゴに置き換わり、上へ移る
+// 1. 白い画面に Polimill のロゴがそのまま（加工せず）現れる
+// 2. ロゴが上へ移る
 // 3. Surfvote → QommonsAI → Qommons ONE のロゴが時間差で現れる
-// 4. 「のこしたいみらいをつくる」が1文字ずつ浮かび、ゆっくり漂う
+// 4. 「のこしたいみらいをつくる」が1文字ずつ浮かび、そのまま止まる
 // 5. 白い幕が上がってサイトが現れる
 const KEY = "pp-intro-seen";
 const TAGLINE = "のこしたいみらいをつくる";
 const LOGO_W = 0.62; // ロゴの幅（画面幅に対する割合の上限）
-const T = { gather: 0, crisp: 2300, lift: 3100, products: 3500, tagline: 5200, out: 8400 };
+const T = { crisp: 300, lift: 1700, products: 2100, tagline: 3800, out: 7000 };
 
-type Phase = "gather" | "crisp" | "lift" | "products" | "tagline" | "out";
+type Phase = "start" | "crisp" | "lift" | "products" | "tagline" | "out";
 
 export function Intro() {
   const [show, setShow] = useState(false);
-  const [phase, setPhase] = useState<Phase>("gather");
+  const [phase, setPhase] = useState<Phase>("start");
   const [reduced, setReduced] = useState(false);
-  const canvasRef = useRef<HTMLDivElement>(null);
   const timers = useRef<number[]>([]);
 
   const finish = useCallback(() => {
@@ -52,10 +51,7 @@ export function Intro() {
     if (!show) return;
     document.documentElement.style.overflow = "hidden";
     const at = (ms: number, p: Phase) => timers.current.push(window.setTimeout(() => setPhase(p), reduced ? ms * 0.35 : ms));
-    if (reduced) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- 動きを減らす設定では粒子を省き、くっきりしたロゴから始める
-      setPhase("crisp");
-    }
+    at(T.crisp, "crisp");
     at(T.lift, "lift");
     at(T.products, "products");
     at(T.tagline, "tagline");
@@ -73,112 +69,8 @@ export function Intro() {
     if (phase === "out") document.documentElement.style.overflow = "";
   }, [phase]);
 
-  // 粒子（Three.js は必要なときだけ読み込む）
-  useEffect(() => {
-    if (!show || reduced || !canvasRef.current) return;
-    let disposed = false;
-    let cleanup = () => {};
-    (async () => {
-      const THREE = await import("three");
-      const img = new window.Image();
-      img.src = asset("/brand/polimill-logo-large.png");
-      await img.decode().catch(() => {});
-      if (disposed || !canvasRef.current) return;
-
-      const host = canvasRef.current;
-      const W = host.clientWidth;
-      const H = host.clientHeight;
-      const logoW = Math.min(560, W * LOGO_W);
-      const logoH = (logoW * img.naturalHeight) / img.naturalWidth;
-
-      // ロゴの画素を読み、粒子の着地点にする
-      const sw = 240;
-      const sh = Math.round((sw * img.naturalHeight) / img.naturalWidth);
-      const c = document.createElement("canvas");
-      c.width = sw;
-      c.height = sh;
-      const ctx = c.getContext("2d", { willReadFrequently: true })!;
-      ctx.drawImage(img, 0, 0, sw, sh);
-      const data = ctx.getImageData(0, 0, sw, sh).data;
-      const targets: number[] = [];
-      const colors: number[] = [];
-      for (let y = 0; y < sh; y++) {
-        for (let x = 0; x < sw; x++) {
-          const i = (y * sw + x) * 4;
-          if (data[i + 3] < 140) continue;
-          targets.push(((x / sw) - 0.5) * logoW, (0.5 - y / sh) * logoH, 0);
-          colors.push(data[i] / 255, data[i + 1] / 255, data[i + 2] / 255);
-        }
-      }
-      const n = targets.length / 3;
-      const start = new Float32Array(n * 3);
-      const delay = new Float32Array(n);
-      for (let k = 0; k < n; k++) {
-        const r = Math.max(W, H) * (0.6 + Math.random() * 0.8);
-        const th = Math.random() * Math.PI * 2;
-        start[k * 3] = Math.cos(th) * r;
-        start[k * 3 + 1] = Math.sin(th) * r * 0.7;
-        start[k * 3 + 2] = -900 + Math.random() * 1500;
-        // 左から右へ少しずつ遅れて集まる
-        delay[k] = ((targets[k * 3] / logoW + 0.5) * 0.35 + Math.random() * 0.25) * 1000;
-      }
-
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(W, H);
-      host.appendChild(renderer.domElement);
-      const scene = new THREE.Scene();
-      const fov = 35;
-      const camera = new THREE.PerspectiveCamera(fov, W / H, 1, 5000);
-      camera.position.z = H / 2 / Math.tan((fov * Math.PI) / 360); // z=0 の面で 1単位=1px
-      const geo = new THREE.BufferGeometry();
-      const pos = new Float32Array(start);
-      geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-      geo.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
-      const mat = new THREE.PointsMaterial({ size: Math.max(2.2, logoW / sw) * 1.05, vertexColors: true, transparent: true, opacity: 1, sizeAttenuation: true });
-      const points = new THREE.Points(geo, mat);
-      scene.add(points);
-
-      const t0 = performance.now();
-      const dur = 1700;
-      const easeOut = (x: number) => 1 - Math.pow(1 - x, 4);
-      let raf = 0;
-      const tick = () => {
-        const t = performance.now() - t0;
-        for (let k = 0; k < n; k++) {
-          const p = easeOut(Math.min(1, Math.max(0, (t - delay[k]) / dur)));
-          const j = k * 3;
-          pos[j] = start[j] + (targets[j] - start[j]) * p;
-          pos[j + 1] = start[j + 1] + (targets[j + 1] - start[j + 1]) * p;
-          pos[j + 2] = start[j + 2] + (targets[j + 2] - start[j + 2]) * p;
-        }
-        geo.attributes.position.needsUpdate = true;
-        const settle = easeOut(Math.min(1, t / 2300));
-        points.rotation.y = (1 - settle) * 0.9;
-        points.rotation.x = (1 - settle) * -0.25;
-        // くっきりしたロゴに置き換わるところで粒子を消す
-        if (t > T.crisp) mat.opacity = Math.max(0, 1 - (t - T.crisp) / 500);
-        renderer.render(scene, camera);
-        if (t < T.crisp + 600) raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
-      timers.current.push(window.setTimeout(() => setPhase((p) => (p === "gather" ? "crisp" : p)), T.crisp));
-      cleanup = () => {
-        cancelAnimationFrame(raf);
-        geo.dispose();
-        mat.dispose();
-        renderer.dispose();
-        renderer.domElement.remove();
-      };
-    })();
-    return () => {
-      disposed = true;
-      cleanup();
-    };
-  }, [show, reduced]);
-
   const lifted = phase === "lift" || phase === "products" || phase === "tagline" || phase === "out";
-  const crisp = phase !== "gather";
+  const crisp = phase !== "start";
   const showProducts = phase === "products" || phase === "tagline" || phase === "out";
 
   return (
@@ -194,14 +86,13 @@ export function Intro() {
           animate={phase === "out" ? { clipPath: "inset(0 0 100% 0)" } : { clipPath: "inset(0 0 0% 0)" }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
-          <div ref={canvasRef} className="absolute inset-0" aria-hidden />
 
           <div className="relative flex h-full flex-col items-center justify-center px-6">
             {/* ロゴ：粒子が集まった位置にそのまま重ねる */}
             <motion.div
               initial={false}
-              animate={{ y: lifted ? "-14vh" : 0, scale: lifted ? 0.72 : 1, opacity: crisp ? 1 : 0, filter: crisp ? "blur(0px)" : "blur(6px)" }}
-              transition={{ duration: lifted ? 0.9 : 0.5, ease: [0.16, 1, 0.3, 1] }}
+              animate={{ y: lifted ? "-14vh" : 0, scale: lifted ? 0.72 : 1, opacity: crisp ? 1 : 0 }}
+              transition={{ duration: lifted ? 0.9 : 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="absolute"
               style={{ width: `min(560px, ${LOGO_W * 100}vw)` }}
             >
@@ -232,8 +123,6 @@ export function Intro() {
             <motion.p
               className="absolute bottom-[16vh] font-heading text-[clamp(26px,5.2vw,52px)] font-bold tracking-[0.12em] text-ink"
               aria-label={TAGLINE}
-              animate={phase === "tagline" && !reduced ? { y: [0, -8, 0] } : { y: 0 }}
-              transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 1.4 }}
             >
               {TAGLINE.split("").map((ch, i) => (
                 <motion.span
