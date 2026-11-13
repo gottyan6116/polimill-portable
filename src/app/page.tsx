@@ -9,6 +9,7 @@ import { KindBadge } from "@/components/KindBadge";
 import { ArticleTile } from "@/components/ArticleCard";
 import { FeatureCarousel, HeroSearch, LatestTabs } from "@/components/home";
 import { Banners } from "@/components/Banners";
+import { Intro } from "@/components/Intro";
 
 export default function Home() {
   const featured = ARTICLES.filter((a) => a.featured);
@@ -17,6 +18,7 @@ export default function Home() {
   const counts = Object.fromEntries(THEMES.map((t) => [t.slug, ARTICLES.filter((a) => a.theme === t.slug).length]));
   return (
     <>
+      <Intro />
       {/* ヒーロー：左に検索、右に今日の一本（写真つき） */}
       <section className="border-b border-line bg-surface">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 md:py-14 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center">
