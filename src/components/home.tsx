@@ -32,7 +32,8 @@ export function HeroSearch() {
           <span className="shrink-0">例：</span>
           <motion.span
             key={i}
-            initial={{ y: 12, opacity: 0 }}
+            // 最初の1語は動かさずに出す（JS が動く前の画面でも読めるように）
+            initial={i === 0 ? false : { y: 12, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.35, ease: [0.2, 0.7, 0.2, 1] }}
             className="truncate"
@@ -75,7 +76,7 @@ export function FeatureCarousel({ items }: { items: Article[] }) {
         </div>
         <div className="flex flex-col p-6 md:p-8">
           <p className="text-[13px] font-bold text-brand-strong">特集 {i + 1}／{items.length}</p>
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div key={a.id} initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -6, opacity: 0 }} transition={{ duration: 0.3 }} className="mt-3">
               <KindBadge kind={a.kind} company={a.company} size="md" />
               <h3 className="mt-3 text-[22px] font-bold leading-snug text-ink">

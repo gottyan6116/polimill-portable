@@ -7,11 +7,10 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { ArrowRight, ChevronDown, Info } from "lucide-react";
 import { asset } from "@/lib/asset";
 
-const EASE = [0.2, 0.7, 0.2, 1] as const;
-
 // トップのファーストビュー。淡い色の地に大きな見出しを中央に置き、
 // その下にまち全体のイラストを広く見せる。左下にお知らせ、右に Scroll down。
 // PC幅ではFVを画面の高さに収め、イラストは残りの高さに合わせて縮める（下が切れないように）。
+// 登場の動きは CSS（.fv-in）で行う。JS が読み込めない・遅れるときも、見出しとイラストが消えたままにならないように。
 export function HeroFV() {
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
@@ -31,30 +30,24 @@ export function HeroFV() {
       </svg>
 
       <div className="mx-auto max-w-[1360px] px-4 pt-12 sm:px-6 sm:pt-14 lg:flex lg:h-full lg:flex-col lg:pb-8 lg:pt-12">
-        <motion.h1
+        <h1
           id="fv-heading"
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: EASE }}
-          className="fv-heading text-center text-[28px] font-bold text-ink sm:text-[40px] lg:text-[52px]"
+          style={{ "--fv-y": "16px", "--fv-dur": "0.8s" } as React.CSSProperties}
+          className="fv-in fv-heading text-center text-[28px] font-bold text-ink sm:text-[40px] lg:text-[52px]"
         >
           行政の「知りたい」が、
           <span className="inline-block">見つかる</span>
-        </motion.h1>
-        <motion.p
-          initial={reduce ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.25, ease: EASE }}
-          className="mx-auto mt-4 max-w-2xl text-center text-[14px] text-ink-2 sm:text-[15px]"
+        </h1>
+        <p
+          style={{ "--fv-y": "0px", "--fv-dur": "0.8s", "--fv-delay": "0.25s" } as React.CSSProperties}
+          className="fv-in mx-auto mt-4 max-w-2xl text-center text-[14px] text-ink-2 sm:text-[15px]"
         >
           制度・ほかの自治体の事例・企業のサービスを、出典と種類を分けて探せる行政ナレッジポータル
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={reduce ? false : { opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: 0.15, ease: EASE }}
-          className="relative mx-auto mt-6 w-full max-w-[1240px] sm:mt-8 lg:mt-6 lg:min-h-0 lg:flex-1"
+        <div
+          style={{ "--fv-y": "40px", "--fv-dur": "1.1s", "--fv-delay": "0.15s" } as React.CSSProperties}
+          className="fv-in relative mx-auto mt-6 w-full max-w-[1240px] sm:mt-8 lg:mt-6 lg:min-h-0 lg:flex-1"
         >
           <motion.div style={{ y: illoY }} className="lg:h-full">
           <div className={`lg:h-full ${reduce ? "" : "fv-float"}`}>
@@ -68,15 +61,13 @@ export function HeroFV() {
             />
           </div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
 
       {/* 左下：お知らせ（PC幅より狭いときはイラストの下に置く） */}
-      <motion.div
-        initial={reduce ? false : { opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.7, ease: EASE }}
-        className="relative mx-4 mb-8 mt-2 sm:mx-6 sm:max-w-[340px] lg:absolute lg:bottom-8 lg:left-8 lg:m-0 lg:w-[280px]"
+      <div
+        style={{ "--fv-y": "12px", "--fv-dur": "0.6s", "--fv-delay": "0.7s" } as React.CSSProperties}
+        className="fv-in relative mx-4 mb-8 mt-2 sm:mx-6 sm:max-w-[340px] lg:absolute lg:bottom-8 lg:left-8 lg:m-0 lg:w-[280px]"
       >
         <span aria-hidden className="absolute -top-4 left-3 h-9 w-6 -rotate-[24deg] rounded-[2px] bg-fv-tape" />
         <Link
@@ -94,7 +85,7 @@ export function HeroFV() {
             </span>
           </span>
         </Link>
-      </motion.div>
+      </div>
 
       {/* 右：Scroll down */}
       <button
