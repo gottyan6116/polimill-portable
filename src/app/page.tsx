@@ -171,6 +171,30 @@ export default function Home() {
         </aside>
       </section>
 
+      {/* Qommons IN：まだ登録していない職員を IN へ案内する */}
+      <section aria-labelledby="qin-heading" className="bg-qin-deep text-white">
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-12 sm:px-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+          <div>
+            <p className="text-[13px] font-bold text-white/75">行政職員のための職員コミュニティ</p>
+            {/* avoid-ai-design-ignore: SD5 -- IN の色分けは Qommons IN のロゴ表記に合わせたもの */}
+            <h2 id="qin-heading" className="mt-1 font-heading text-[26px] font-bold">
+              Qommons <span className="text-[#8fd1b0]">IN</span>　行政の知恵を、つなぐ。
+            </h2>
+            <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-white/85">
+              ポータルで見つけた制度や事例の先に、職員どうしの対話の場があります。認証された行政職員だけが参加できます。
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/qommons-in/" className="inline-flex h-12 items-center rounded-control bg-white px-5 text-[15px] font-bold text-qin-deep transition-colors hover:bg-qin-soft">
+              Qommons IN について
+            </Link>
+            <Link href="/qommons-in/#apply" className="inline-flex h-12 items-center rounded-control border border-white/50 px-5 text-[15px] font-bold text-white transition-colors hover:bg-white/10">
+              利用を申し込む
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Talk / ポータル / ONE の関係 */}
       <section className="border-y border-line bg-surface">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">

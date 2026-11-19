@@ -114,6 +114,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
             {isPr && <ConsentDialog article={a} />}
             <p className="text-[12px] leading-relaxed text-ink-3">比較に追加すると、画面下のトレイに入ります。最大4件まで並べて比べられます。</p>
           </div>
+          {/* まだ Qommons IN に参加していない職員への入口 */}
+          <Link href="/qommons-in/" className="group mt-3 block rounded-card bg-qin-deep p-4 text-white">
+            <span className="block text-[12px] font-bold text-white/75">職員コミュニティ</span>
+            <span className="mt-0.5 block font-heading text-[16px] font-bold">
+              Qommons <span className="text-[#8fd1b0]">IN</span>
+            </span>
+            <span className="mt-1 block text-[13px] leading-relaxed text-white/85">ほかの自治体の職員とつながる場。認証された行政職員だけが参加できます。</span>
+            <span className="mt-2 inline-block text-[13px] font-bold underline-offset-4 group-hover:underline">参加のしかたを見る</span>
+          </Link>
         </aside>
       </div>
 

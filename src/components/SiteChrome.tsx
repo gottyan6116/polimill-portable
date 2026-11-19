@@ -14,6 +14,7 @@ const NAV = [
   { href: "/themes/bousai/", label: "テーマから探す", match: "/themes" },
   { href: "/services/", label: "サービス比較", match: "/services" },
   { href: "/seminars/", label: "セミナー", match: "/seminars" },
+  { href: "/qommons-in/", label: "Qommons IN", match: "/qommons-in" },
   { href: "/policy/", label: "広告と編集の方針", match: "/policy" },
 ];
 
@@ -149,6 +150,7 @@ function Footer() {
     ["/compare/", "比べて下書きを作る"],
     ["/services/", "サービス比較（PR）"],
     ["/seminars/", "セミナー"],
+    ["/qommons-in/", "Qommons IN（職員コミュニティ）"],
     ["/policy/", "広告と編集の方針"],
     ["/credits/", "写真のクレジット"],
   ];

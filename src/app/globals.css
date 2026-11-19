@@ -14,6 +14,10 @@
   --color-brand-soft: #fff0e6;
   --color-brand-strong: #c2470a;
   --color-brand-deep: #9c3906;
+  /* Qommons IN（職員コミュニティ）の色。IN の画面の緑に合わせる。紹介の場所だけで使う */
+  --color-qin: #176b52;
+  --color-qin-deep: #203d32;
+  --color-qin-soft: #e8f2ed;
   --color-public: #1f5f8b;
   --color-public-soft: #e8f1f8;
   --color-case: #2e7d5b;
