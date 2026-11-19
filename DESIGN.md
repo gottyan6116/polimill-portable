@@ -15,6 +15,10 @@ colors:
   case: "#2E7D5B"        # 自治体事例
   editorial: "#434956"   # 編集部
   pr: "#8A5A00"          # PR（企業提供）。地は #FFF4D6
+  fv-mint: "#DCEFE7"     # トップFVの淡い地（イラストの色に合わせる）
+  fv-blush: "#F9E3E4"
+  fv-sky: "#E4EFF5"
+  fv-tape: "#F4DC3C"     # お知らせカードのマスキングテープ
 typography:
   heading: Zen Maru Gothic（Polimill コーポレートサイトと同じ見出し書体）
   body: BIZ UDPGothic（行政文書でも使われるUD書体。小さい文字でも読み分けやすい）
@@ -31,6 +35,11 @@ motion: { ease-out: "cubic-bezier(.2,.7,.2,1)", fast: 160ms, base: 240ms }
 ## シグネチャー
 - **出典ラベル**：全カード・全記事の先頭に、種類ごとに形と色の違うラベル（公的資料／自治体事例／編集部／研修／テンプレート／PR）を置く。PRは琥珀の地に「PR・企業提供」と企業名を必ず併記する。
 - **比較トレイ**：記事を「比較に追加」すると画面下に付箋のように積まれ、比較表と庁内資料の下書きにつながる。
+
+## トップのファーストビュー
+淡いミント・桜・空色の地に大きな見出しを中央に置き、まち全体のイラスト（public/brand/portal-fv.webp）を広く見せる。
+左下にお知らせ、右に Scroll down。イラストは元画像（outputs/polimill_portal_20261112/pictures/portal-fv.webp）の白を透明にして書き出したもの。
+PC幅では画面の高さに収め、イラストの下は切れてよい。
 
 ## 守ること
 - 掲載料で並び順を変えない。サービス一覧は更新日順。PRは通常の検索結果の上位に固定しない。

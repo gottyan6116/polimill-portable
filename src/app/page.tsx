@@ -10,6 +10,7 @@ import { ArticleTile } from "@/components/ArticleCard";
 import { FeatureCarousel, HeroSearch, LatestTabs } from "@/components/home";
 import { Banners } from "@/components/Banners";
 import { Intro } from "@/components/Intro";
+import { HeroFV } from "@/components/HeroFV";
 
 export default function Home() {
   const featured = ARTICLES.filter((a) => a.featured);
@@ -19,16 +20,17 @@ export default function Home() {
   return (
     <>
       <Intro />
-      {/* ヒーロー：左に検索、右に今日の一本（写真つき） */}
-      <section className="border-b border-line bg-surface">
+      <HeroFV />
+      {/* FVの次：左に検索、右に今日の一本（写真つき） */}
+      <section id="after-fv" className="scroll-mt-28 border-y border-line bg-surface">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 md:py-14 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center">
           <div>
             <p className="text-[14px] font-bold text-brand-strong">自治体職員のための行政ナレッジポータル</p>
-            <h1 className="mt-3 text-[30px] font-bold leading-[1.35] text-ink sm:text-[40px]">
+            <h2 className="mt-3 text-[28px] font-bold leading-[1.35] text-ink sm:text-[34px]">
               業務の課題から、
               <br />
               制度・事例・サービスを探せます
-            </h1>
+            </h2>
             <p className="mt-4 max-w-xl text-[15px] text-ink-2">
               国の資料、他の自治体の取り組み、企業のサービスを、出典と種類を分けて並べます。気になったものは比べて、庁内説明の下書きにできます。
             </p>
