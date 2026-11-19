@@ -89,6 +89,15 @@ h3,
   scroll-snap-align: start;
 }
 
+/* オープニング待ち：演出が出るまでサイトを白で隠す（layout.tsx の先読みスクリプトが付け外し） */
+html.pp-intro-pending::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: #fff;
+}
+
 /* ===== ファーストビュー ===== */
 .fv-bg {
   background-color: #fbfcfb;

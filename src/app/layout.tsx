@@ -14,9 +14,17 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#ffffff" };
 
+// オープニングを出す日は、最初の描画の前に白で隠す（一瞬サイトが見えてから演出が始まるのを防ぐ）。
+// 条件は Intro.tsx と同じ：トップで、同じタブで未表示か ?intro=1。JS が止まっても 12 秒で外す。
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const INTRO_GATE = `try{var p=location.pathname;while(p.slice(-1)==="/")p=p.slice(0,-1);if(p===${JSON.stringify(BASE)}&&(sessionStorage.getItem("pp-intro-seen")!=="1"||new URLSearchParams(location.search).get("intro")==="1")){var d=document.documentElement;d.classList.add("pp-intro-pending");setTimeout(function(){d.classList.remove("pp-intro-pending")},12000)}}catch(e){}`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja" className={`${zen.variable} ${biz.variable}`}>
+    <html lang="ja" className={`${zen.variable} ${biz.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_GATE }} />
+      </head>
       <body>
         <SiteChrome>{children}</SiteChrome>
       </body>

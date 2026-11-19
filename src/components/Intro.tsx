@@ -9,11 +9,14 @@ import { asset } from "@/lib/asset";
 // 1. 斜め上から見た日本列島が、1,741の点（全国の市区町村の数）で浮かぶ
 // 2. 北から南へ、点からオレンジの光の柱が立ちのぼる
 // 3. 柱が沈み、視点が真上へ移りながら、列島は薄い背景になる
-// 4. Polimill のロゴ → Surfvote・QommonsAI・Qommons ONE → 「のこしたいみらいをつくる」（最後は止まる）
+// 4. Polimill のロゴ → Surfvote・QommonsAI・Qommons ONE → 「のこしたいみらいをともにつくる」（最後は止まる）
 // 5. 白い幕が上がってサイトが現れる
 // 点の位置は列島の形から均等に置いたもので、実際の導入自治体の場所ではない（データは src/lib/japan-dots.json）。
 const KEY = "pp-intro-seen";
-const TAGLINE = "のこしたいみらいをつくる";
+const TAGLINE = "のこしたいみらいをともにつくる";
+// layout.tsx の先読みスクリプトが付ける。オープニングが出るまでサイトを白で隠す
+const PENDING = "pp-intro-pending";
+const reveal = () => document.documentElement.classList.remove(PENDING);
 const T = { logo: 5200, products: 6100, tagline: 7000, out: 9600 };
 const ORANGE = [255, 111, 34];
 const GRAY = [201, 206, 216];
@@ -101,6 +104,7 @@ export function Intro() {
     timers.current.forEach((t) => clearTimeout(t));
     timers.current = [];
     setOut(true);
+    reveal(); // 幕が上がる間に下のサイトが見えるよう、ここで隠しを外す
     document.documentElement.style.overflow = "";
     timers.current.push(window.setTimeout(() => setShow(false), 900));
     try {
@@ -118,6 +122,7 @@ export function Intro() {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- 初回表示の判定はブラウザでしかできない
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     if (!seen || force) setShow(true);
+    else reveal();
   }, []);
 
   // 進行（幕を上げる時刻・Esc・スクロール止め）
@@ -229,7 +234,7 @@ export function Intro() {
 
             {/* キャッチコピー：1文字ずつ浮かび、そのまま止まる */}
             <p
-              className="absolute inset-x-0 top-[78%] m-0 whitespace-nowrap text-center font-heading text-[clamp(20px,6.2vw,42px)] font-bold tracking-[0.08em] text-ink sm:top-[72%] sm:text-[clamp(22px,3.8vw,42px)] sm:tracking-[0.12em]"
+              className="absolute inset-x-0 top-[78%] m-0 whitespace-nowrap text-center font-heading text-[clamp(18px,5.4vw,42px)] font-bold tracking-[0.06em] text-ink sm:top-[72%] sm:text-[clamp(22px,3.8vw,42px)] sm:tracking-[0.12em]"
               aria-label={TAGLINE}
             >
               {TAGLINE.split("").map((ch, i) => (
