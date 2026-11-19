@@ -6,9 +6,9 @@ import { ARTICLES, SEMINARS, THEMES, byUpdated, formatDate, themeOf } from "@/li
 import { asset } from "@/lib/asset";
 import { Photo } from "@/components/Photo";
 import { KindBadge } from "@/components/KindBadge";
-import { ArticleTile } from "@/components/ArticleCard";
 import { FeatureCarousel, HeroSearch, LatestTabs } from "@/components/home";
 import { Banners } from "@/components/Banners";
+import { CaseMarquee } from "@/components/CaseMarquee";
 import { Intro } from "@/components/Intro";
 import { HeroFV } from "@/components/HeroFV";
 
@@ -110,13 +110,10 @@ export default function Home() {
               <p className="mt-1 text-[13px] text-ink-3">人口規模と体制を確かめてから、自分の自治体に当てはめられます。</p>
             </div>
           </div>
-          <ul className="scroll-row mt-6 flex gap-5 overflow-x-auto pb-3">
-            {cases.map((a) => (
-              <li key={a.id} className="w-[78%] shrink-0 sm:w-[44%] lg:w-[31%]">
-                <ArticleTile a={a} />
-              </li>
-            ))}
-          </ul>
+        </div>
+        {/* 2段で流す：上段は右から左、下段は左から右（画面の端から端まで） */}
+        <div className="mt-8">
+          <CaseMarquee cases={cases} />
         </div>
       </section>
 

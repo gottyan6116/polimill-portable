@@ -174,3 +174,53 @@ html.pp-intro-pending::after {
     animation: none;
   }
 }
+
+/* 自治体事例の2段ループ（CaseMarquee）。同じ並びを2回置き、ちょうど1回分（-50%）ずらして継ぎ目なく回す */
+.case-marquee {
+  --gap: 20px;
+  overflow: hidden;
+  /* 左右の端を白へ溶かす */
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+.case-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: case-marquee-left 70s linear infinite;
+}
+.case-marquee[data-dir="right"] .case-marquee__track {
+  animation-name: case-marquee-right;
+  animation-duration: 80s;
+}
+.case-marquee__set {
+  display: flex;
+  gap: var(--gap);
+  padding-right: var(--gap);
+  margin: 0;
+  list-style: none;
+}
+/* マウスを乗せている間・キーボードで選んでいる間は止める */
+.case-marquee:hover .case-marquee__track,
+.case-marquee:focus-within .case-marquee__track {
+  animation-play-state: paused;
+}
+@keyframes case-marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes case-marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+/* 動きを減らす設定：止めて、横にスクロールできる一覧にする（2回目の並びは隠す） */
+@media (prefers-reduced-motion: reduce) {
+  .case-marquee {
+    overflow-x: auto;
+    mask-image: none;
+  }
+  .case-marquee__track {
+    animation: none;
+  }
+  .case-marquee__set--copy {
+    display: none;
+  }
+}
