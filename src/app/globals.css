@@ -123,8 +123,8 @@ html.pp-intro-pending::after {
 }
 /* イラストは白を透明にした書き出し（public/brand/portal-fv.webp）。外周だけ少しぼかす */
 .fv-illo {
-  -webkit-mask-image: radial-gradient(75% 80% at 50% 50%, #000 70%, transparent 100%);
-  mask-image: radial-gradient(75% 80% at 50% 50%, #000 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(80% 90% at 50% 50%, #000 82%, transparent 100%);
+  mask-image: radial-gradient(80% 90% at 50% 50%, #000 82%, transparent 100%);
 }
 .fv-float {
   animation: fv-float 7s ease-in-out infinite;

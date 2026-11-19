@@ -11,6 +11,7 @@ const EASE = [0.2, 0.7, 0.2, 1] as const;
 
 // トップのファーストビュー。淡い色の地に大きな見出しを中央に置き、
 // その下にまち全体のイラストを広く見せる。左下にお知らせ、右に Scroll down。
+// PC幅ではFVを画面の高さに収め、イラストは残りの高さに合わせて縮める（下が切れないように）。
 export function HeroFV() {
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
@@ -29,7 +30,7 @@ export function HeroFV() {
         <path d="M0 560 C 380 470, 760 640, 1100 520 S 1440 470, 1440 470 L1440 900 L0 900 Z" fill="var(--color-fv-blush)" opacity="0.5" />
       </svg>
 
-      <div className="mx-auto max-w-[1360px] px-4 pt-12 sm:px-6 sm:pt-14 lg:pt-16">
+      <div className="mx-auto max-w-[1360px] px-4 pt-12 sm:px-6 sm:pt-14 lg:flex lg:h-full lg:flex-col lg:pb-8 lg:pt-12">
         <motion.h1
           id="fv-heading"
           initial={reduce ? false : { opacity: 0, y: 16 }}
@@ -37,9 +38,8 @@ export function HeroFV() {
           transition={{ duration: 0.8, ease: EASE }}
           className="fv-heading text-center text-[28px] font-bold text-ink sm:text-[40px] lg:text-[52px]"
         >
-          行政のしごとを
-          <br />
-          ナレッジのちからでデザインする
+          行政の「知りたい」が、
+          <span className="inline-block">見つかる</span>
         </motion.h1>
         <motion.p
           initial={reduce ? false : { opacity: 0 }}
@@ -54,17 +54,17 @@ export function HeroFV() {
           initial={reduce ? false : { opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, delay: 0.15, ease: EASE }}
-          className="relative mx-auto mt-6 max-w-[1240px] sm:mt-8"
+          className="relative mx-auto mt-6 w-full max-w-[1240px] sm:mt-8 lg:mt-6 lg:min-h-0 lg:flex-1"
         >
-          <motion.div style={{ y: illoY }}>
-          <div className={reduce ? undefined : "fv-float"}>
+          <motion.div style={{ y: illoY }} className="lg:h-full">
+          <div className={`lg:h-full ${reduce ? "" : "fv-float"}`}>
             <Image
               src={asset("/brand/portal-fv.webp")}
               alt="自治体庁舎、住民相談の窓口、データ活用、連携・共創、Qommons ONE のアプリがPolimillを中心につながるまちのイラスト"
               width={1672}
               height={941}
               priority
-              className="fv-illo h-auto w-full"
+              className="fv-illo h-auto w-full lg:mx-auto lg:h-full lg:w-auto lg:max-w-full lg:object-contain"
             />
           </div>
           </motion.div>
@@ -76,7 +76,7 @@ export function HeroFV() {
         initial={reduce ? false : { opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.7, ease: EASE }}
-        className="relative mx-4 mb-8 mt-2 sm:mx-6 sm:max-w-[340px] lg:absolute lg:bottom-10 lg:left-10 lg:m-0 lg:w-[300px]"
+        className="relative mx-4 mb-8 mt-2 sm:mx-6 sm:max-w-[340px] lg:absolute lg:bottom-8 lg:left-8 lg:m-0 lg:w-[280px]"
       >
         <span aria-hidden className="absolute -top-4 left-3 h-9 w-6 -rotate-[24deg] rounded-[2px] bg-fv-tape" />
         <Link
