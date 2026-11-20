@@ -32,6 +32,14 @@
   --color-fv-sky: #e4eff5;
   --color-fv-tape: #f4dc3c;
 
+  /* 入口のアーチと流れる帯（浅川町ポータルの見せ方を参考にした部分） */
+  --color-warm: #fdf0d2;
+  --color-warm-line: #ecdcbc;
+  --color-paper: #fbf8f2;
+  --color-band-word: #e6d8c9;
+  --color-band-stroke: #c9b29b;
+  --color-tile-ink: #3a2d26;
+
   --font-heading: var(--font-zen), "Zen Maru Gothic", sans-serif;
   --font-body: var(--font-biz), "BIZ UDPGothic", "Hiragino Sans", sans-serif;
 
@@ -143,6 +151,79 @@ html.pp-intro-pending::after {
 @keyframes fv-nudge {
   0%, 100% { transform: translateY(-2px); }
   50% { transform: translateY(3px); }
+}
+
+/* ===== 入口のアーチ型4枚（EntranceTiles.tsx） ===== */
+.entrance {
+  background: var(--color-warm);
+  padding-block: 64px 56px;
+}
+.entrance__tiles { margin: 0; padding: 0; list-style: none; display: grid; gap: 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 900px) { .entrance__tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.entrance__tile { position: relative; display: block; border-radius: 999px 999px 18px 18px; overflow: hidden; }
+.entrance__ph { aspect-ratio: 3 / 4; }
+/* 上を白くぼかして文字を読ませる */
+.entrance__tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.92) 30%, rgb(255 255 255 / 0.55) 52%, rgb(255 255 255 / 0) 72%);
+}
+.entrance__en, .entrance__ja, .entrance__go { position: absolute; left: 50%; translate: -50% 0; z-index: 1; white-space: nowrap; }
+.entrance__en { top: 26%; font-size: 11px; letter-spacing: 0.25em; color: var(--color-brand-strong); font-weight: 700; }
+.entrance__ja { top: 32%; font-family: var(--font-heading); font-weight: 700; font-size: clamp(16px, 2vw, 24px); color: var(--color-tile-ink); }
+.entrance__go {
+  top: 48%;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-brand-strong);
+  color: #fff;
+  transition: transform 0.2s var(--ease-out);
+}
+.entrance__tile:hover .entrance__go { transform: translateX(4px); }
+.entrance__tile:hover .entrance__ja { text-decoration: underline; text-decoration-color: var(--color-brand); text-underline-offset: 5px; }
+.entrance__themes { margin: 32px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.entrance__themes a {
+  display: inline-block;
+  background: var(--color-surface);
+  border: 1px solid var(--color-warm-line);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--color-ink-2);
+  transition: border-color 0.15s, color 0.15s;
+}
+.entrance__themes a:hover { border-color: var(--color-brand-strong); color: var(--color-brand-strong); }
+
+/* ===== テーマの文字と写真が流れる帯（ThemeBand.tsx） ===== */
+.theme-band { padding-block: 28px; display: grid; gap: 14px; background: var(--color-paper); overflow: hidden; }
+.theme-band__track { display: flex; width: max-content; animation: theme-band-left 60s linear infinite; }
+.theme-band__row[data-dir="right"] .theme-band__track { animation-name: theme-band-right; animation-duration: 70s; }
+.theme-band__row:hover .theme-band__track,
+.theme-band__row:focus-within .theme-band__track { animation-play-state: paused; }
+.theme-band__set { display: flex; align-items: center; gap: 28px; padding: 0 28px 0 0; margin: 0; list-style: none; }
+.theme-band__item { display: flex; align-items: center; gap: 28px; }
+.theme-band__word {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(30px, 4vw, 52px);
+  line-height: 1.3;
+  white-space: nowrap;
+  color: var(--color-band-word);
+  -webkit-text-stroke: 1px var(--color-band-stroke);
+  transition: color 0.2s;
+}
+.theme-band__word:hover, .theme-band__word:focus-visible { color: var(--color-brand); -webkit-text-stroke-color: var(--color-brand-strong); }
+.theme-band__photo { width: 150px; aspect-ratio: 16 / 10; border-radius: 10px; flex: none; }
+@keyframes theme-band-left { to { transform: translateX(-50%); } }
+@keyframes theme-band-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-band__row { overflow-x: auto; }
+  .theme-band__track { animation: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

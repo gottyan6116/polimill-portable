@@ -11,6 +11,8 @@ import { Banners } from "@/components/Banners";
 import { CaseMarquee } from "@/components/CaseMarquee";
 import { Intro } from "@/components/Intro";
 import { HeroFV } from "@/components/HeroFV";
+import { EntranceTiles } from "@/components/EntranceTiles";
+import { ThemeBand } from "@/components/ThemeBand";
 
 export default function Home() {
   const featured = ARTICLES.filter((a) => a.featured);
@@ -57,12 +59,20 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 入口：上が丸いアーチ型の4枚とテーマの丸ボタン */}
+      <EntranceTiles />
+
       <section className="mx-auto max-w-6xl px-4 pt-10 sm:px-6" aria-label="おすすめ">
         <Banners />
       </section>
 
+      {/* テーマの文字と写真が流れる帯 */}
+      <div className="mt-12">
+        <ThemeBand />
+      </div>
+
       {/* テーマ：行政ポータル型のリンク一覧（区切り線の行。アイコンは置かない） */}
-      <section aria-labelledby="themes-heading" className="my-12 border-y border-line bg-surface">
+      <section aria-labelledby="themes-heading" className="mb-12 border-y border-line bg-surface">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
           <h2 id="themes-heading" className="text-[24px] font-bold text-ink">
             担当している業務から探す
