@@ -15,7 +15,6 @@ const NAV = [
   { href: "/services/", label: "サービス比較", match: "/services" },
   { href: "/seminars/", label: "セミナー", match: "/seminars" },
   { href: "/qommons-in/", label: "Qommons IN", match: "/qommons-in" },
-  { href: "/policy/", label: "広告と編集の方針", match: "/policy" },
 ];
 
 const SearchCtx = createContext<(q?: string) => void>(() => {});
