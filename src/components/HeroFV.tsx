@@ -27,7 +27,7 @@ export function HeroFV() {
   };
 
   return (
-    <section aria-labelledby="fv-heading" className="fv-bg relative isolate overflow-hidden lg:h-[calc(100svh-6.5rem)] lg:min-h-[620px]">
+    <section aria-labelledby="fv-heading" className="fv-bg relative isolate overflow-hidden lg:h-[calc(100svh-4rem)] lg:min-h-[620px]">
       {/* 地の大きな曲線（参考サイトの帯の流れ） */}
       <svg aria-hidden className="pointer-events-none absolute inset-0 -z-10 h-full w-full" viewBox="0 0 1440 900" preserveAspectRatio="none">
         <path d="M0 420 C 320 300, 620 520, 980 380 S 1440 260, 1440 260 L1440 900 L0 900 Z" fill="var(--color-fv-mint)" opacity="0.55" />

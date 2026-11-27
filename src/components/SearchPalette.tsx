@@ -71,7 +71,7 @@ export function SearchPalette({ open, onClose, initial = "" }: { open: boolean; 
       ),
     })),
     ...hits.seminars.map((s) => ({
-      href: `/seminars/`,
+      href: `/seminars/${s.id}/`,
       key: s.id,
       node: (
         <span className="flex items-center gap-3">
