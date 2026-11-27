@@ -13,6 +13,8 @@ import { Intro } from "@/components/Intro";
 import { HeroFV } from "@/components/HeroFV";
 import { EntranceTiles } from "@/components/EntranceTiles";
 import { ThemeBand } from "@/components/ThemeBand";
+import { NewsList, PolimillBadge, TrainingCard } from "@/components/PolimillNews";
+import { NEWS, TRAININGS, byDateDesc } from "@/lib/polimill-news";
 
 export default function Home() {
   const featured = ARTICLES.filter((a) => a.featured);
@@ -176,6 +178,39 @@ export default function Home() {
             </Link>
           </div>
         </aside>
+      </section>
+
+      {/* 運営元 Polimill からのお知らせと研修（編集部・PR とは別枠） */}
+      <section aria-labelledby="polimill-heading" className="border-t border-line bg-surface">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <PolimillBadge label="運営元 Polimill の情報" />
+              <h2 id="polimill-heading" className="mt-3 text-[24px] font-bold">
+                Polimill からのお知らせと研修
+              </h2>
+            </div>
+            <Link href="/polimill/" className="text-[14px] font-bold text-brand-strong hover:underline">
+              すべて見る
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+            <div>
+              <h3 className="mb-3 text-[15px] font-bold text-ink-2">お知らせ</h3>
+              <NewsList items={byDateDesc(NEWS).slice(0, 3)} />
+            </div>
+            <div>
+              <h3 className="mb-3 text-[15px] font-bold text-ink-2">これからの研修</h3>
+              <ul className="grid gap-4 sm:grid-cols-2">
+                {TRAININGS.slice(0, 2).map((t) => (
+                  <li key={t.id}>
+                    <TrainingCard t={t} compact />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Qommons IN：まだ登録していない職員を IN へ案内する */}

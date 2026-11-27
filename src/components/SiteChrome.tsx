@@ -15,6 +15,7 @@ const NAV = [
   { href: "/services/", label: "サービス比較", match: "/services" },
   { href: "/seminars/", label: "セミナー", match: "/seminars" },
   { href: "/qommons-in/", label: "Qommons IN", match: "/qommons-in" },
+  { href: "/polimill/", label: "Polimill から", match: "/polimill" },
 ];
 
 const SearchCtx = createContext<(q?: string) => void>(() => {});
@@ -150,6 +151,7 @@ function Footer() {
     ["/services/", "サービス比較（PR）"],
     ["/seminars/", "セミナー"],
     ["/qommons-in/", "Qommons IN（職員コミュニティ）"],
+    ["/polimill/", "Polimill から（お知らせ・研修）"],
     ["/policy/", "広告と編集の方針"],
     ["/credits/", "写真のクレジット"],
   ];

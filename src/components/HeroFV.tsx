@@ -4,8 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 // avoid-ai-design-ignore: I3 -- お知らせカードの「開く」を示す矢印（参考サイトの構成に合わせる）
-import { ArrowRight, ChevronDown, Info } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { asset } from "@/lib/asset";
+import { NEWS, byDateDesc, dotDate } from "@/lib/polimill-news";
+import { PolimillBadge } from "@/components/PolimillNews";
+
+// 左下カードに出すのは、Polimill のお知らせのうち「重要」の最新1件（なければ最新）
+const latest = byDateDesc(NEWS).find((n) => n.important) ?? byDateDesc(NEWS)[0];
 
 // トップのファーストビュー。淡い色の地に大きな見出しを中央に置き、
 // その下にまち全体のイラストを広く見せる。左下にお知らせ、右に Scroll down。
@@ -64,23 +69,25 @@ export function HeroFV() {
         </div>
       </div>
 
-      {/* 左下：お知らせ（PC幅より狭いときはイラストの下に置く） */}
+      {/* 左下：運営元 Polimill の最新のお知らせ（PC幅より狭いときはイラストの下に置く） */}
       <div
         style={{ "--fv-y": "12px", "--fv-dur": "0.6s", "--fv-delay": "0.7s" } as React.CSSProperties}
         className="fv-in relative mx-4 mb-8 mt-2 sm:mx-6 sm:max-w-[340px] lg:absolute lg:bottom-8 lg:left-8 lg:m-0 lg:w-[280px]"
       >
         <span aria-hidden className="absolute -top-4 left-3 h-9 w-6 -rotate-[24deg] rounded-[2px] bg-fv-tape" />
         <Link
-          href="/policy/"
+          href={`/polimill/#${latest.id}`}
           className="group relative block rounded-card bg-surface px-5 py-4 shadow-raised transition-transform duration-200 hover:-translate-y-0.5"
         >
-          <span className="flex items-center gap-1.5 text-[13px] font-bold text-case">
-            <Info aria-hidden className="size-4" />
-            お知らせ
+          <span className="flex items-center justify-between gap-2">
+            <PolimillBadge />
+            <time dateTime={latest.date} className="text-[12px] text-ink-3 tabular">
+              {dotDate(latest.date)}
+            </time>
           </span>
-          <span className="mt-1.5 flex items-end justify-between gap-3">
-            <span className="text-[14px] leading-relaxed text-ink-2">このサイトはデモです。掲載内容はすべてサンプルです</span>
-            <span className="grid h-7 w-11 shrink-0 place-items-center rounded-full bg-surface-2 text-case transition-colors group-hover:bg-case group-hover:text-white">
+          <span className="mt-2 flex items-end justify-between gap-3">
+            <span className="text-[14px] font-bold leading-relaxed text-ink">{latest.title}</span>
+            <span className="grid h-7 w-11 shrink-0 place-items-center rounded-full bg-surface-2 text-ink transition-colors group-hover:bg-ink group-hover:text-white">
               <ArrowRight aria-hidden className="size-4" />
             </span>
           </span>
