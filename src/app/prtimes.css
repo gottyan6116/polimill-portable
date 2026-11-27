@@ -7,57 +7,22 @@
 }
 .prt-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.24em; color: var(--color-brand-strong); }
 
-/* ===== 上部：リリース画像を束にして、次の1枚へ送る（PrTimesStage.tsx） ===== */
-.prt-stage { width: 100%; max-width: 560px; justify-self: center; }
-/* 手前のカードの右下に、次の2枚が少しずつずれてのぞく */
-.prt-stage__deck { position: relative; aspect-ratio: 3 / 2; margin-right: 15%; margin-bottom: 13%; }
-.prt-stage__card {
+/* ===== 上部：公共OS Qommons の図 ===== */
+.prt-os { position: relative; margin: 0; justify-self: center; width: 100%; max-width: 640px; }
+/* 図の後ろに淡い円を置いて、輪の形を地にも響かせる */
+.prt-os::before {
+  content: "";
   position: absolute;
-  inset: 0;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 4px solid #fff;
-  background: #fff;
-  box-shadow: 0 22px 44px -22px rgb(34 34 34 / 0.5);
-  transition: transform 0.75s var(--ease-out), opacity 0.6s var(--ease-out);
-  will-change: transform;
-  transform-origin: 100% 100%; /* 後ろのカードは右下の角を軸に小さくして、右下へのぞかせる */
-}
-.prt-stage__img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.prt-stage__card[data-pos="0"] { z-index: 4; transform: none; }
-.prt-stage__card[data-pos="0"]:hover { transform: translateY(-4px); }
-.prt-stage__card[data-pos="1"] { z-index: 3; transform: translate(9%, 9%) rotate(3deg) scale(0.9); }
-.prt-stage__card[data-pos="2"] { z-index: 2; transform: translate(17%, 17%) rotate(6deg) scale(0.8); }
-.prt-stage__card[data-pos="3"] { z-index: 1; transform: translate(17%, 17%) rotate(6deg) scale(0.8); opacity: 0; }
-/* 送り出した1枚は左へ飛んで消える */
-.prt-stage__card[data-pos="out"] { z-index: 5; transform: translate(-40%, -4%) rotate(-10deg) scale(0.96); opacity: 0; pointer-events: none; }
-
-.prt-stage__caption { margin-top: 4px; min-height: 5.2em; }
-.prt-stage__meta { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; color: var(--color-ink-3); font-variant-numeric: tabular-nums; }
-.prt-stage__count { color: var(--color-brand-strong); font-family: var(--font-heading); font-size: 14px; letter-spacing: 0.06em; }
-.prt-stage__title { display: block; margin-top: 4px; font-family: var(--font-heading); font-weight: 700; font-size: 17px; line-height: 1.55; color: var(--color-ink); }
-.prt-stage__title:hover { text-decoration: underline; text-decoration-color: var(--color-brand); text-underline-offset: 4px; }
-
-.prt-stage__controls { margin-top: 10px; display: flex; align-items: center; gap: 8px; }
-.prt-stage__bar { flex: 1; height: 3px; border-radius: 2px; background: var(--color-line); overflow: hidden; }
-.prt-stage__bar i { display: block; height: 100%; background: var(--color-brand); transform-origin: 0 50%; transform: scaleX(0); }
-.prt-stage__bar i.is-running { animation: prt-stage-bar linear forwards; }
-@keyframes prt-stage-bar { to { transform: scaleX(1); } }
-.prt-stage__btn {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
+  inset: 6% 12%;
+  z-index: 0;
   border-radius: 50%;
-  border: 1px solid var(--color-line-strong);
-  background: var(--color-surface);
-  color: var(--color-ink-2);
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  background: radial-gradient(closest-side, var(--color-brand-soft), transparent 75%);
 }
-.prt-stage__btn:hover { background: var(--color-ink); border-color: var(--color-ink); color: #fff; }
-
+.prt-os__img { position: relative; z-index: 1; display: block; width: 100%; height: auto; animation: prt-os-in 0.9s var(--ease-out) both, prt-os-float 8s ease-in-out 0.9s infinite; }
+@keyframes prt-os-in { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes prt-os-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
 @media (prefers-reduced-motion: reduce) {
-  .prt-stage__card { transition: opacity 0.2s; }
+  .prt-os__img { animation: none; }
 }
 
 .prt-kind { display: inline-block; border-radius: 999px; padding: 0 10px; font-size: 11px; font-weight: 700; line-height: 20px; color: #fff; }

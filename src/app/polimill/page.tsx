@@ -3,7 +3,8 @@ import Link from "next/link";
 import { NEWS, TRAININGS, byDateDesc } from "@/lib/polimill-news";
 import { NewsList, PolimillBadge, TrainingCard } from "@/components/PolimillNews";
 import { PrTimesAllLink, PrTimesHighlights, PrTimesTrainings } from "@/components/PrTimes";
-import { PrTimesStage } from "@/components/PrTimesStage";
+import Image from "next/image";
+import { asset } from "@/lib/asset";
 import "../prtimes.css";
 
 export const metadata: Metadata = { title: "Polimill から" };
@@ -16,12 +17,12 @@ export default function Page() {
   return (
     <>
       <section className="prt-hero border-b border-line">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)]">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
           <div>
             <PolimillBadge label="運営元 Polimill の情報" />
             <h1 className="mt-4 font-heading text-[32px] font-bold leading-tight text-ink sm:text-[40px]">Polimill から</h1>
             <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-2">
-              このポータルを運営する Polimill の発表と、QommonsAI・Qommons ONE の研修の案内です。
+              このポータルを運営する Polimill は、市民・行政・企業や大学・AI が同じ基盤でつながる「公共OS Qommons」をつくっています。ここでは、その発表と QommonsAI・Qommons ONE の研修の案内を載せています。
             </p>
             <p className="mt-2 max-w-2xl text-[13px] text-ink-3">
               編集部の記事や企業の PR とは分けて載せています。サービス比較の一覧には入りません。PR TIMES のリリースは実際に公開したもので、お知らせと研修はデモ用のサンプルです。
@@ -48,7 +49,18 @@ export default function Page() {
               </Link>
             </nav>
           </div>
-          <PrTimesStage />
+          {/* 公共OS Qommons の全体図（polimill.jp の図をそのまま使う） */}
+          <figure className="prt-os">
+            <Image
+              src={asset("/brand/qommons-os.webp")}
+              alt="公共OS Qommons の図。市民・住民（Surfvote）、パブリックセクター・社会インフラ（QommonsAI）、ヒューマノイド、学術・企業・NPO の4つが、Qommons を中心に輪でつながっている。個別のプロダクトではなく、多様なアプリケーションが連携・発展するエコシステムであり、社会全体が活動する基盤。"
+              width={1600}
+              height={1200}
+              priority
+              sizes="(min-width: 1024px) 620px, 100vw"
+              className="prt-os__img"
+            />
+          </figure>
         </div>
       </section>
 
