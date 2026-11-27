@@ -2,45 +2,82 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NEWS, TRAININGS, byDateDesc } from "@/lib/polimill-news";
 import { NewsList, PolimillBadge, TrainingCard } from "@/components/PolimillNews";
+import { PrTimesAllLink, PrTimesHighlights, PrTimesMosaic, PrTimesTrainings } from "@/components/PrTimes";
+import "../prtimes.css";
 
 export const metadata: Metadata = { title: "Polimill から" };
 
-// 運営元 Polimill からのお知らせと研修。編集部の記事・PR・サービス比較とは分けて、ここにまとめる。
+// 運営元 Polimill の発表・お知らせ・研修。編集部の記事・PR・サービス比較とは分けて、ここにまとめる。
+// PR TIMES の欄だけは実在のリリース（src/lib/prtimes.ts）。お知らせと研修はデモ用のサンプル。
 export default function Page() {
   const news = byDateDesc(NEWS);
   const trainings = [...TRAININGS].sort((a, b) => (a.date < b.date ? -1 : 1));
   return (
     <>
-      <section className="border-b border-line bg-surface">
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
-          <PolimillBadge label="運営元 Polimill の情報" />
-          <h1 className="mt-4 font-heading text-[32px] font-bold leading-tight text-ink sm:text-[40px]">Polimill から</h1>
-          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-2">
-            このポータルを運営する Polimill からのお知らせと、QommonsAI・Qommons ONE の研修の案内です。
-          </p>
-          <p className="mt-2 max-w-2xl text-[13px] text-ink-3">
-            編集部の記事や企業の PR とは分けて載せています。サービス比較の一覧には入りません。掲載内容はデモ用のサンプルです。
-          </p>
-          <nav aria-label="このページの中" className="mt-8 flex flex-wrap gap-2">
-            {[
-              ["#news", "お知らせ"],
-              ["#trainings", "研修"],
-            ].map(([href, label]) => (
-              <a
-                key={href}
-                href={href}
-                className="inline-flex h-10 items-center rounded-full border border-line-strong px-4 text-[14px] font-bold text-ink transition-colors hover:border-ink hover:bg-canvas"
+      <section className="prt-hero border-b border-line">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)]">
+          <div>
+            <PolimillBadge label="運営元 Polimill の情報" />
+            <h1 className="mt-4 font-heading text-[32px] font-bold leading-tight text-ink sm:text-[40px]">Polimill から</h1>
+            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-2">
+              このポータルを運営する Polimill の発表と、QommonsAI・Qommons ONE の研修の案内です。
+            </p>
+            <p className="mt-2 max-w-2xl text-[13px] text-ink-3">
+              編集部の記事や企業の PR とは分けて載せています。サービス比較の一覧には入りません。PR TIMES のリリースは実際に公開したもので、お知らせと研修はデモ用のサンプルです。
+            </p>
+            <nav aria-label="このページの中" className="mt-8 flex flex-wrap gap-2">
+              {[
+                ["#releases", "PR TIMES の発表"],
+                ["#news", "お知らせ"],
+                ["#trainings", "研修"],
+              ].map(([href, label]) => (
+                <a
+                  key={href}
+                  href={href}
+                  className="inline-flex h-10 items-center rounded-full border border-line-strong bg-surface px-4 text-[14px] font-bold text-ink transition-colors hover:border-ink hover:bg-canvas"
+                >
+                  {label}
+                </a>
+              ))}
+              <Link
+                href="/seminars/"
+                className="inline-flex h-10 items-center rounded-full px-4 text-[14px] font-bold text-ink-3 underline-offset-4 hover:text-ink hover:underline"
               >
-                {label}
-              </a>
-            ))}
-            <Link
-              href="/seminars/"
-              className="inline-flex h-10 items-center rounded-full px-4 text-[14px] font-bold text-ink-3 underline-offset-4 hover:text-ink hover:underline"
-            >
-              編集部のセミナーはこちら
-            </Link>
-          </nav>
+                編集部のセミナーはこちら
+              </Link>
+            </nav>
+          </div>
+          <PrTimesMosaic />
+        </div>
+      </section>
+
+      {/* PR TIMES で公開した実際のリリース */}
+      <section id="releases" aria-labelledby="releases-heading" className="mx-auto max-w-6xl scroll-mt-28 px-4 pt-14 sm:px-6">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="prt-eyebrow">PRESS RELEASE</p>
+            <h2 id="releases-heading" className="mt-1 text-[26px] font-bold">
+              PR TIMES で発表しました
+            </h2>
+            <p className="mt-1 text-[13px] text-ink-3">新しい機能、自治体との協定、共催セミナー。押すと PR TIMES の記事が新しいタブで開きます。</p>
+          </div>
+          <PrTimesAllLink />
+        </div>
+        <div className="mt-6">
+          <PrTimesHighlights />
+        </div>
+      </section>
+
+      <section aria-labelledby="prt-training-heading" className="prt-band mt-14">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <p className="prt-eyebrow">TRAINING REPORT</p>
+          <h2 id="prt-training-heading" className="mt-1 text-[26px] font-bold">
+            全国の自治体で、研修を開いています
+          </h2>
+          <p className="mt-1 text-[13px] text-ink-3">QommonsAI 活用研修の実施レポート（PR TIMES）。参加した職員の声を見出しにしています。</p>
+        </div>
+        <div className="mt-6">
+          <PrTimesTrainings />
         </div>
       </section>
 

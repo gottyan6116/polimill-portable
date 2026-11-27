@@ -1,0 +1,93 @@
+/* PR TIMES のリリース（PrTimes.tsx）。/polimill/ の page.tsx から読み込む。 */
+.prt-hero {
+  background:
+    radial-gradient(50% 70% at 95% 10%, var(--color-brand-soft) 0%, transparent 70%),
+    radial-gradient(40% 60% at 70% 100%, var(--color-fv-mint) 0%, transparent 70%),
+    var(--color-surface);
+}
+.prt-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.24em; color: var(--color-brand-strong); }
+
+/* 右上の画像の重なり */
+.prt-mosaic { position: relative; margin: 0; padding: 0; list-style: none; aspect-ratio: 5 / 4; max-width: 520px; width: 100%; justify-self: center; }
+.prt-mosaic__item {
+  position: absolute;
+  width: 58%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 18px 36px -18px rgb(34 34 34 / 0.45);
+  border: 4px solid #fff;
+  animation: prt-bob 7s ease-in-out infinite;
+}
+.prt-mosaic__img { display: block; width: 100%; height: auto; }
+.prt-mosaic__item--1 { left: 0; top: 4%; rotate: -4deg; z-index: 2; }
+.prt-mosaic__item--2 { right: 0; top: 0; rotate: 3deg; z-index: 1; animation-delay: -2s; }
+.prt-mosaic__item--3 { left: 6%; bottom: 0; rotate: 2deg; z-index: 1; animation-delay: -4s; }
+.prt-mosaic__item--4 { right: 3%; bottom: 6%; rotate: -2deg; z-index: 3; animation-delay: -1s; }
+@keyframes prt-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+
+.prt-kind { display: inline-block; border-radius: 999px; padding: 0 10px; font-size: 11px; font-weight: 700; line-height: 20px; color: #fff; }
+.prt-kind--news { background: var(--color-brand-strong); }
+.prt-kind--pact { background: var(--color-public); }
+.prt-kind--seminar { background: var(--color-ink); }
+.prt-kind--training { background: var(--color-case); }
+
+.prt-thumb { overflow: hidden; background: var(--color-surface-2); aspect-ratio: 3 / 2; }
+.prt-thumb__img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease-out); }
+.prt-card:hover .prt-thumb__img { transform: scale(1.04); }
+
+.prt-card {
+  display: block;
+  height: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s var(--ease-out);
+}
+.prt-card:hover { box-shadow: var(--shadow-raised); transform: translateY(-2px); }
+.prt-card__body { padding: 16px 18px 18px; }
+.prt-card__meta { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--color-ink-3); font-variant-numeric: tabular-nums; }
+.prt-card__title { margin-top: 8px; font-size: 15px; line-height: 1.6; color: var(--color-ink); }
+.prt-card__title--lead { font-size: clamp(19px, 2.2vw, 24px); line-height: 1.5; }
+.prt-card:hover .prt-card__title { text-decoration: underline; text-decoration-color: var(--color-brand); text-underline-offset: 4px; }
+.prt-card__sub { margin-top: 6px; font-size: 14px; color: var(--color-ink-2); }
+.prt-card__go { margin-top: 12px; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; color: var(--color-brand-strong); }
+
+/* 主な発表：大きな1本＋右に3本 */
+.prt-bento { display: grid; gap: 18px; }
+@media (min-width: 1024px) { .prt-bento { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); } }
+.prt-side { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.prt-card--row { display: grid; grid-template-columns: 170px minmax(0, 1fr); align-items: center; gap: 4px; padding: 10px; }
+/* 画像に文字が入っているので切らずに 3:2 のまま見せる */
+.prt-card--row .prt-thumb { border-radius: 8px; }
+.prt-card--row .prt-card__body { padding: 4px 8px 4px 12px; }
+.prt-card--row .prt-card__title { margin-top: 6px; font-size: 14px; }
+@media (max-width: 520px) { .prt-card--row { grid-template-columns: 120px minmax(0, 1fr); } }
+
+/* 研修の帯（横に流せる） */
+.prt-band { padding-block: 52px 48px; background: linear-gradient(180deg, var(--color-brand-soft), var(--color-canvas)); }
+.prt-trainings { display: flex; gap: 18px; overflow-x: auto; margin: 0; list-style: none; padding: 4px max(16px, calc((100vw - 72rem) / 2 + 24px)) 14px; }
+.prt-trainings__item { flex: 0 0 min(300px, 78vw); }
+.prt-card--training .prt-card__body { display: grid; gap: 8px; }
+.prt-card__place { display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; color: var(--color-case); }
+.prt-card__quote { font-family: var(--font-heading); font-weight: 700; font-size: 15px; line-height: 1.6; color: var(--color-ink); }
+.prt-card__date { font-size: 12px; color: var(--color-ink-3); font-variant-numeric: tabular-nums; }
+
+.prt-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--color-ink);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-ink);
+  transition: background 0.15s, color 0.15s;
+}
+.prt-all:hover { background: var(--color-ink); color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .prt-mosaic__item { animation: none; }
+}
