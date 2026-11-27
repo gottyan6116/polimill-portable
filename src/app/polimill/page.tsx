@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NEWS, TRAININGS, byDateDesc } from "@/lib/polimill-news";
 import { NewsList, PolimillBadge, TrainingCard } from "@/components/PolimillNews";
-import { PrTimesAllLink, PrTimesHighlights, PrTimesMosaic, PrTimesTrainings } from "@/components/PrTimes";
+import { PrTimesAllLink, PrTimesHighlights, PrTimesTrainings } from "@/components/PrTimes";
+import { PrTimesStage } from "@/components/PrTimesStage";
 import "../prtimes.css";
 
 export const metadata: Metadata = { title: "Polimill から" };
@@ -47,7 +48,7 @@ export default function Page() {
               </Link>
             </nav>
           </div>
-          <PrTimesMosaic />
+          <PrTimesStage />
         </div>
       </section>
 

@@ -5,7 +5,7 @@ import { asset } from "@/lib/asset";
 import { dotDate } from "@/lib/polimill-news";
 import { PRTIMES_LIST_URL, RELEASES, releaseImg, releaseUrl, type Release, type ReleaseKind } from "@/lib/prtimes";
 
-// PR TIMES のリリースを並べる（/polimill/ で使う。CSS は globals.css の .prt）。
+// PR TIMES のリリースを並べる（/polimill/ で使う。CSS は src/app/prtimes.css の .prt-）。上部の送り表示は PrTimesStage.tsx。
 // リンクはすべて PR TIMES の元記事へ、新しいタブで開く。
 
 const KIND_CLASS: Record<ReleaseKind, string> = {
@@ -28,20 +28,6 @@ function Thumb({ r, sizes, priority }: { r: Release; sizes: string; priority?: b
 }
 
 const external = { target: "_blank", rel: "noopener noreferrer" } as const;
-
-// ページ上部の右側に置く、リリース画像の重なり
-export function PrTimesMosaic() {
-  const picks = [817, 825, 819, 824].map((n) => RELEASES.find((r) => r.no === n)!);
-  return (
-    <ul className="prt-mosaic" aria-hidden>
-      {picks.map((r, i) => (
-        <li key={r.no} className={`prt-mosaic__item prt-mosaic__item--${i + 1}`}>
-          <Image src={asset(releaseImg(r))} alt="" width={960} height={640} sizes="(min-width: 1024px) 260px, 40vw" priority className="prt-mosaic__img" />
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 // 主な発表：大きな1本＋右に3本
 export function PrTimesHighlights() {
@@ -83,14 +69,26 @@ export function PrTimesHighlights() {
   );
 }
 
-// 研修の実施レポート：横に流せるカード
+// 研修の実施レポート：右から左へ流れ続ける帯（ホバー・フォーカスで止まる。動きを減らす設定では横スクロール）。
+// ループのため同じ並びを2組置き、2組目は読み上げ・Tab移動から外す。
 export function PrTimesTrainings() {
-  const list = RELEASES.filter((r) => r.kind === "研修");
+  const list = RELEASES.filter((r) => r.kind === "研修").sort((a, b) => (a.date < b.date ? 1 : -1));
   return (
-    <ul className="prt-trainings scroll-row">
+    <div className="prt-marquee">
+      <div className="prt-marquee__track" style={{ animationDuration: `${list.length * 6}s` }}>
+        <TrainingSet list={list} />
+        <TrainingSet list={list} copy />
+      </div>
+    </div>
+  );
+}
+
+function TrainingSet({ list, copy = false }: { list: Release[]; copy?: boolean }) {
+  return (
+    <ul className="prt-marquee__set" aria-hidden={copy || undefined}>
       {list.map((r) => (
         <li key={r.no} className="prt-trainings__item">
-          <a href={releaseUrl(r)} {...external} className="prt-card prt-card--training group">
+          <a href={releaseUrl(r)} {...external} tabIndex={copy ? -1 : undefined} className="prt-card prt-card--training group">
             <Thumb r={r} sizes="320px" />
             <div className="prt-card__body">
               <p className="prt-card__place">

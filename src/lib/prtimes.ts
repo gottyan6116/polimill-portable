@@ -1,4 +1,4 @@
-// PR TIMES で Polimill が実際に出したプレスリリース（2026-11-27 時点の一覧から9本を手で選んだもの）。
+// PR TIMES で Polimill が実際に出したプレスリリース（2026-11-27 時点の一覧から16本を手で選んだもの）。
 // サイトのほかの中身はデモ用のサンプルだが、ここだけは実在のリリース。タイトルと日付は PR TIMES の表記のまま。
 // 画像は各リリースのメイン画像を public/prtimes/<番号>.webp に保存した。増やすときはここと画像を足す。
 export const PRTIMES_LIST_URL = "https://prtimes.jp/main/html/searchrlp/company_id/88829";
@@ -24,6 +24,14 @@ export const RELEASES: Release[] = [
   { no: 817, date: "2026-11-20", kind: "発表", title: "QommonsAI、OpenAI「GPT-6 Luna」による国内推論に対応", sub: "全国約1200自治体、65万人に提供開始" },
   { no: 816, date: "2026-11-19", kind: "研修", place: "宮崎県新富町", title: "QommonsAI活用研修を宮崎県新富町で実施", sub: "「これ、すぐ使えますよ！」実務での活用イメージが広がる初級編" },
   { no: 813, date: "2026-11-16", kind: "発表", title: "Polimill、「QommonsAI 3.0 エージェント版 導入効果シミュレーター」を全国約1,200の自治体に公開" },
+  // 研修の実施レポート（11月分の残り）
+  { no: 820, date: "2026-11-25", kind: "研修", place: "北海道比布町", title: "QommonsAI活用研修を北海道比布町で実施", sub: "「もっと色々な業務で試してみたい」ハンズオンで広がる生成AI活用" },
+  { no: 809, date: "2026-11-16", kind: "研修", place: "京都府八幡市", title: "QommonsAI活用研修を京都府八幡市で実施", sub: "基礎から実践へ、日常業務での生成AI活用を考える中級編" },
+  { no: 811, date: "2026-11-13", kind: "研修", place: "北海道上川町", title: "QommonsAI活用研修を北海道上川町で実施", sub: "基礎から実践へ、日々の業務での生成AI活用を考える" },
+  { no: 808, date: "2026-11-13", kind: "研修", place: "北海道愛別町", title: "QommonsAI活用研修を北海道愛別町で実施", sub: "グループワークを通じ、生成AIを日常業務にどう生かすかを学ぶ" },
+  { no: 810, date: "2026-11-12", kind: "研修", place: "和歌山県御坊市", title: "QommonsAI活用研修を和歌山県御坊市で実施", sub: "「実際に操作しながら実践的に学ぶことができた」初級編で生成AIの基本を学ぶ" },
+  { no: 812, date: "2026-11-12", kind: "研修", place: "和歌山県串本町", title: "QommonsAI活用研修を和歌山県串本町で実施", sub: "「すごい、感動した」職員同士で教え合いながら、生成AIの活用を体験" },
+  { no: 807, date: "2026-11-11", kind: "研修", place: "愛媛県西条市", title: "QommonsAI活用研修を愛媛県西条市で実施", sub: "日常利用を土台に、実務での活用をさらに深める中級編" },
 ];
 
 export const releaseUrl = (r: Release) => `https://prtimes.jp/main/html/rd/p/${String(r.no).padStart(9, "0")}.000088829.html`;
