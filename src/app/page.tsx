@@ -149,14 +149,16 @@ export default function Home() {
               <ul className="mt-3 divide-y divide-line">
                 {SEMINARS.slice(0, 3).map((s) => (
                   <li key={s.id} className="py-3">
-                    <p className="text-[12px] text-ink-3 tabular">
-                      {formatDate(s.date)} {s.time}・{s.format}
-                    </p>
-                    <p className="mt-0.5 text-[14px] font-bold text-ink">{s.title}</p>
-                    <p className="text-[12px] text-ink-3">
-                      {themeOf(s.theme).name}
-                      {s.sponsor && <span className="ml-2 rounded-chip bg-pr-soft px-1.5 text-pr">協賛：{s.sponsor}</span>}
-                    </p>
+                    <Link href={`/seminars/#${s.id}`} className="block rounded-control hover:text-brand-strong">
+                      <p className="text-[12px] text-ink-3 tabular">
+                        {formatDate(s.date)} {s.time}・{s.format}
+                      </p>
+                      <p className="mt-0.5 text-[14px] font-bold text-ink">{s.title}</p>
+                      <p className="text-[12px] text-ink-3">
+                        {themeOf(s.theme).name}
+                        {s.sponsor && <span className="ml-2 rounded-chip bg-pr-soft px-1.5 text-pr">協賛：{s.sponsor}</span>}
+                      </p>
+                    </Link>
                   </li>
                 ))}
               </ul>
