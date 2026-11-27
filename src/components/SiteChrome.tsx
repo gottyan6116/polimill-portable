@@ -25,7 +25,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [initial, setInitial] = useState("");
   const [menu, setMenu] = useState(false);
-  const [talkBar, setTalkBar] = useState(true);
   const path = usePathname();
 
   const openSearch = (q = "") => {
@@ -114,22 +113,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                   ))}
                 </ul>
               </motion.nav>
-            )}
-          </AnimatePresence>
-          <AnimatePresence initial={false}>
-            {talkBar && (
-              <motion.div initial={false} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden border-t border-line bg-canvas">
-                <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-2 text-[13px] sm:px-6">
-                  <Image src={asset("/brand/qommonsai-logo.png")} alt="QommonsAI" width={84} height={15} className="h-[14px] w-auto shrink-0" />
-                  <p className="min-w-0 text-ink-2">
-                    <span className="font-bold">Talk から開いています。</span>
-                    <span className="hidden sm:inline">このポータルの広告や掲載料は、Talk の回答・順位・推薦には使われません。</span>
-                  </p>
-                  <button type="button" onClick={() => setTalkBar(false)} className="ml-auto shrink-0 rounded p-1 text-ink-3 hover:bg-surface-2" aria-label="この案内を閉じる">
-                    <X aria-hidden className="size-4" />
-                  </button>
-                </div>
-              </motion.div>
             )}
           </AnimatePresence>
         </header>
